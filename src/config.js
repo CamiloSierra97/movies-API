@@ -11,6 +11,5 @@ const config = {
     name: process.env.DB_NAME,
   },
 };
-console.log(process.env.PORT);
 
 module.exports = config;
