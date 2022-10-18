@@ -35,6 +35,15 @@ const editMovie = async (id, data) => {
   return response;
 };
 
+const deleteMovie = async (id) => {
+  const data = await Movies.destroy({
+    where: {
+      id,
+    },
+  });
+  return data;
+};
+
 // creatNewMovie({
 //     name: 'Pulp Fiction',
 //     genre: 'Drama',
@@ -59,4 +68,5 @@ module.exports = {
   creatNewMovie,
   getMovieById,
   editMovie,
+  deleteMovie,
 };

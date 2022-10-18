@@ -14,7 +14,8 @@ const getMovies = (req, res) => {
 const postMovie = (req, res) => {
   const data = req.body;
   if (data.name && data.genre && data.duration && data.releaseData) {
-    moviesControllers(data)
+    moviesControllers
+      .creatNewMovie(data)
       .then((response) => {
         res.status(201).json(data);
       })
@@ -31,10 +32,10 @@ const getOneMovie = (req, res) => {
   moviesControllers
     .getMovieById(id)
     .then((data) => {
-      if(data){
+      if (data) {
         res.status(200).json(data);
       } else {
-        res.status(404).json({message: 'Invalid ID'});
+        res.status(404).json({ message: "Invalid ID" });
       }
     })
     .catch((err) => {
@@ -48,16 +49,32 @@ const patchMovie = (req, res) => {
   moviesControllers
     .editMovie(id, { name, genre, duration, releaseDate })
     .then((response) => {
-      if(response[0]){
+      if (response[0]) {
         res.status(200).json({
           message: `Movie with id: ${id}, edited succesfully`,
         });
       } else {
-        res.status(400).json({message: 'Invalid ID'});
+        res.status(400).json({ message: "Invalid ID" });
       }
     })
     .catch((error) => {
       res.status(400).json({ message: err.message });
+    });
+};
+
+const deleteOneMovie = (req, res) => {
+  const id = req.params.id;
+  moviesControllers
+    .deleteMovie(id)
+    .then((res) => {
+      if (res) {
+        res.status(204).json(res);
+      } else {
+        res.status(404).json({ message: "Invalid ID" });
+      }
+    })
+    .catch((err) => {
+      err.status(400).json(err);
     });
 };
 
@@ -66,4 +83,5 @@ module.exports = {
   postMovie,
   getOneMovie,
   patchMovie,
+  deleteOneMovie,
 };
