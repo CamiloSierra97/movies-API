@@ -12,18 +12,18 @@ const getMovies = (req, res) => {
 };
 
 const postMovie = (req, res) => {
-  const data = req.body;
-  if (data.name && data.genre && data.duration && data.releaseData) {
+  const movie = req.body;
+  if (movie.name && movie.genre && movie.duration && movie.releaseDate) {
     moviesControllers
-      .creatNewMovie(data)
+      .creatNewMovie(movie)
       .then((response) => {
-        res.status(201).json(data);
+        res.status(201).json(movie);
       })
       .catch((err) => {
         res.status(400).json({ message: err.message });
       });
   } else {
-    res.status(400).json({ message: "Missing data" });
+    res.data(400).json({ message: "Missing data" });
   }
 };
 
@@ -64,18 +64,17 @@ const patchMovie = (req, res) => {
 
 const deleteOneMovie = (req, res) => {
   const id = req.params.id;
-  moviesControllers
-    .deleteMovie(id)
-    .then((res) => {
-      if (res) {
-        res.status(204).json(res);
-      } else {
-        res.status(404).json({ message: "Invalid ID" });
-      }
-    })
-    .catch((err) => {
-      err.status(400).json(err);
-    });
+  moviesControllers.deleteMovie(id)
+  .then(response => {
+    if(response){
+      res.status(200).json(response)
+    } else {
+      res.status(400).json({message: 'Invalid ID'})
+    }
+  })
+  .catch(err => {
+    res.status(404).json(err)
+  })
 };
 
 module.exports = {

@@ -17,6 +17,7 @@ const creatNewMovie = async (data) => {
   return newMovie;
 };
 
+
 const getMovieById = async (id) => {
   const data = await Movies.findOne({
     where: {
